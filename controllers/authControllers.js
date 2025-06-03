@@ -58,7 +58,7 @@ const login = async(req,res) => {
             maxAge: 8*60*60*1000
         });
         
-        return res.json({success: true});
+        return res.json({success: true, token});
 
     } catch(error){
         return res.json({success: false,message:"something went wrong"});
