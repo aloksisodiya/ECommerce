@@ -4,7 +4,7 @@
  */
 exports.up = async function(knex) {
   await knex.schema.createTable('users', (table) => {
-    table.increments('id').primary();
+    table.increments('user_id').primary();
     table.string('name');
     table.string('email').unique();
     table.string('password');
@@ -20,7 +20,7 @@ exports.up = async function(knex) {
   });
 
   await knex.schema.createTable('orders',(table)=>{
-    table.increments('order_id').primary();
+    table.increments('o_id').primary();
     table.timestamp('order_date').defaultTo(knex.fn.now());
     table.string('order_by').notNullable();
     table.timestamps(true,true);
@@ -33,6 +33,13 @@ exports.up = async function(knex) {
     table.text('suggestion');
     table.timestamps(true,true);
   });
+
+  await knex.schema.createTable('order_items',(table)=>{
+    table.increments('id').primary();
+    table.integer('order_id').notNullable().references('o_id').inTable('orders').onDelete('CASCADE');
+    table.integer('product_id').notNullable().references('p_id').inTable('products').onDelete('CASCADE');
+    table.integer('quantity').notNullable();
+  })
 };
 
 /**
@@ -40,8 +47,9 @@ exports.up = async function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = async function(knex) {
-  await knex.schema.dropTableIfExists('products');
-  await knex.schema.dropTableIfExists('users');
-  await knex.schema.dropTableIfExists('orders');
-  await knex.schema.dropTableIfExists('reviews');
+  await knex.schema.dropTable('products');
+  await knex.schema.dropTable('users');
+  await knex.schema.dropTable('orders');
+  await knex.schema.dropTable('reviews');
+  await knex.schema.dropTable('order_items');
 };
