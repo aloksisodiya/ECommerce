@@ -2,12 +2,20 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.up = function(knex) {
-  return knex.schema.createTable('users',(table)=> {
+exports.up = async function(knex) {
+  await knex.schema.createTable('users', (table) => {
     table.increments('id').primary();
     table.string('name');
     table.string('email').unique();
     table.string('password');
+    table.timestamps(true, true);
+  });
+
+  await knex.schema.createTable('products', (table) => {
+    table.increments('p_id').primary();
+    table.decimal('price').notNullable();
+    table.string('name', 1000).notNullable();
+    table.string('description');
     table.timestamps(true, true);
   });
 };
@@ -16,6 +24,7 @@ exports.up = function(knex) {
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-exports.down = function(knex) {
-  return knex.schema.dropTable('users');
+exports.down = async function(knex) {
+  await knex.schema.dropTableIfExists('products');
+  await knex.schema.dropTableIfExists('users');
 };
