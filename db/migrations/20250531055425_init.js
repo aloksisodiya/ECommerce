@@ -18,6 +18,21 @@ exports.up = async function(knex) {
     table.string('description');
     table.timestamps(true, true);
   });
+
+  await knex.schema.createTable('orders',(table)=>{
+    table.increments('order_id').primary();
+    table.timestamp('order_date').defaultTo(knex.fn.now());
+    table.string('order_by').notNullable();
+    table.timestamps(true,true);
+  });
+
+  await knex.schema.createTable('reviews',(table)=>{
+    table.increments('id').primary();
+    table.string('reviewer_name');
+    table.string('rating').notNullable();
+    table.text('suggestion');
+    table.timestamps(true,true);
+  });
 };
 
 /**
@@ -27,4 +42,6 @@ exports.up = async function(knex) {
 exports.down = async function(knex) {
   await knex.schema.dropTableIfExists('products');
   await knex.schema.dropTableIfExists('users');
+  await knex.schema.dropTableIfExists('orders');
+  await knex.schema.dropTableIfExists('reviews');
 };
