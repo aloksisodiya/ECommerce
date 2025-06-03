@@ -26,6 +26,13 @@ exports.up = async function(knex) {
     table.timestamps(true,true);
   });
 
+  await knex.schema.createTable('order_items',(table)=>{
+    table.increments('id').primary();
+    table.integer('order_id').notNullable().references('o_id').inTable('orders').onDelete('CASCADE');
+    table.integer('product_id').notNullable().references('p_id').inTable('products').onDelete('CASCADE');
+    table.integer('quantity').notNullable();
+  });
+
   await knex.schema.createTable('reviews',(table)=>{
     table.increments('id').primary();
     table.string('reviewer_name');
@@ -34,12 +41,6 @@ exports.up = async function(knex) {
     table.timestamps(true,true);
   });
 
-  await knex.schema.createTable('order_items',(table)=>{
-    table.increments('id').primary();
-    table.integer('order_id').notNullable().references('o_id').inTable('orders').onDelete('CASCADE');
-    table.integer('product_id').notNullable().references('p_id').inTable('products').onDelete('CASCADE');
-    table.integer('quantity').notNullable();
-  })
 };
 
 /**
@@ -50,6 +51,6 @@ exports.down = async function(knex) {
   await knex.schema.dropTable('products');
   await knex.schema.dropTable('users');
   await knex.schema.dropTable('orders');
-  await knex.schema.dropTable('reviews');
   await knex.schema.dropTable('order_items');
+  await knex.schema.dropTable('reviews');
 };
