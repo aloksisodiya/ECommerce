@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "migration":"npx knex migrate:latest --knexfile db/knexfile.js",
+    "rollback":"npx knex migrate:rollback --knexfile db/knexfile.js",
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
