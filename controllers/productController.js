@@ -47,6 +47,19 @@ const updateProduct = async (req,res) => {
     }
 }
 
+const deleteProduct = async (req,res) =>{
+    const {id} = req.params;
 
+    try{
+        const deleted = await db('products').where({p_id:id}).del();
+        if (!deleted) {
+            return res.status(404).json({ success: false, message: "Product not found" });
+        }
+        res.json({success:true,message:"product deleted successfully"});
+    }
+    catch(error){
+        res.json({success:false,message:error.message});
+    }
+}
 
-module.exports = {createProduct,getProduct,updateProduct};
+module.exports = {createProduct,getProduct,updateProduct,deleteProduct};
