@@ -1,5 +1,7 @@
 const db = require('../db/db.js');
 
+//create  product
+
 const createProduct = async (req,res) => {
     const {price,name,description} = req.body;
 
@@ -14,7 +16,37 @@ const createProduct = async (req,res) => {
     catch{
         res.json({success:false,message:error.message});
     }
-    
 }
 
-module.exports = {createProduct};
+//read product 
+const getProduct = async (req,res) => {
+    try{
+        const products = await db('products').select('*');
+        res.json({success: true, products});
+    }
+    catch{
+        res.json({success:false,message:error.message});
+    }
+}
+
+// update product 
+
+const updateProduct = async (req,res) => {
+    const {id} = req.params;
+    const {name,price,description} = req.body;
+
+    try{
+        const [products] = await db('products').where({p_id:id}).update({name,price,description}).returning(['p_id','name','price','description']);
+        if(!products){
+            return res.json({success:false,message:"Oops! Product not Found"});
+        }
+        res.json({success:true,products})
+    }
+    catch(error){
+        res.json({success:false,message:error.message});
+    }
+}
+
+
+
+module.exports = {createProduct,getProduct,updateProduct};
