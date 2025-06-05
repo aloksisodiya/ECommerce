@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { register, login } = require('../controllers/authControllers');
 const {createProduct,getProduct,updateProduct, deleteProduct} = require('../controllers/productController');
-const { createReview, readReview, updateReview } = require('../controllers/reviewController');
+const { createReview, readReview, updateReview, deleteReview } = require('../controllers/reviewController');
 
 router.post('/register',register);
 router.post('/login',login);
@@ -17,5 +17,6 @@ router.delete('/delete-product/:id',deleteProduct);
 router.post('/add-review',createReview);
 router.get('/read-review/:id',readReview);
 router.put('/update-review/:id',updateReview);
+router.delete('/delete-review/:id',deleteReview);
 
 module.exports = router;

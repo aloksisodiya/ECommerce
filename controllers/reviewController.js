@@ -47,4 +47,16 @@ const updateReview = async (req,res) => {
    }
 }
 
-module.exports = {createReview,readReview,updateReview};
+const deleteReview = async (req,res) =>{
+    const {id} = req.params;
+
+    try{
+        const review = await db('reviews').where({id:id}).del();
+        res.json({success:true,message:"deleted successfully"});
+    }
+    catch(error){
+        res.json({success:false,message:error.message});
+    }
+}
+
+module.exports = {createReview,readReview,updateReview,deleteReview};
