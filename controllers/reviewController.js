@@ -31,4 +31,20 @@ const readReview = async (req,res) => {
     }
 }
 
-module.exports = {createReview,readReview};
+const updateReview = async (req,res) => {
+   const {id} = req.params;
+   const {reviewer_name,rating,suggestion} = req.body;
+
+   try{
+    const [review] = await db('reviews').where({id:id}).update({reviewer_name,rating,suggestion}).returning(['reviewer_name','rating','suggestion']);
+    if(!review){
+            return res.json({success:false,message:"Oops! Review not Found"});
+        }
+        res.json({success:true,review});
+   } 
+   catch(error){
+    res.json({success:false,message:error.message});
+   }
+}
+
+module.exports = {createReview,readReview,updateReview};
