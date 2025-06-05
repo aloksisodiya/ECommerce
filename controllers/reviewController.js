@@ -16,4 +16,19 @@ const createReview = async (req,res) => {
     } 
 }
 
-module.exports = {createReview};
+const readReview = async (req,res) => {
+    const {id} = req.params;
+
+    try{
+        const review = await db('reviews').where({id:id}).first();
+        if(!review){
+            return res.json({success:false,message:"review not found"});
+        }
+        res.json({success:true,review});
+    }
+    catch(error){
+        res.json({success:false,message:error.message});
+    }
+}
+
+module.exports = {createReview,readReview};
