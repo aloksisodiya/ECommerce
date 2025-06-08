@@ -7,10 +7,10 @@ exports.up = function(knex) {
     table.increments('p_id').primary();
     table.decimal('price').notNullable();
     table.string('name', 1000).notNullable();
+    table.integer('stock').notNullable().defaultTo(0);
     table.string('description');
     table.timestamps(true, true);
   });
-
 };
 
 /**
