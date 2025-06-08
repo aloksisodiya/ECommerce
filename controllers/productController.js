@@ -3,17 +3,17 @@ const db = require('../db/db.js');
 //create  product
 
 const createProduct = async (req,res) => {
-    const {price,name,description} = req.body;
+    const {price,name,description,stock} = req.body;
 
-    if(!name || !price || !description){
+    if(!name || !price || !description || stock == undefined){
         return res.json({success:false,message:"Product can't be created, Provide proper information..."});
     }
 
     try{
-        const [products] = await db('products').insert({name,price,description}).returning(['p_id','name','price','description']);
-        res.json({success:true,products});
+        const [product] = await db('products').insert({name,price,description,stock}).returning(['p_id','name','price','description','stock']);
+        res.json({success:true,product});
     }
-    catch{
+    catch(error){
         res.json({success:false,message:error.message});
     }
 }
@@ -21,8 +21,8 @@ const createProduct = async (req,res) => {
 //read product 
 const getProduct = async (req,res) => {
     try{
-        const products = await db('products').select('*');
-        res.json({success: true, products});
+        const product = await db('products').select('*');
+        res.json({success: true, product});
     }
     catch{
         res.json({success:false,message:error.message});
@@ -33,14 +33,14 @@ const getProduct = async (req,res) => {
 
 const updateProduct = async (req,res) => {
     const {id} = req.params;
-    const {name,price,description} = req.body;
+    const {name,price,description,stock} = req.body;
 
     try{
-        const [products] = await db('products').where({p_id:id}).update({name,price,description}).returning(['p_id','name','price','description']);
+        const [product] = await db('products').where({p_id:id}).update({name,price,description,stock}).returning(['p_id','name','price','description','stock']);
         if(!products){
             return res.json({success:false,message:"Oops! Product not Found"});
         }
-        res.json({success:true,products})
+        res.json({success:true,product})
     }
     catch(error){
         res.json({success:false,message:error.message});

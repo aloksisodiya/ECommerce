@@ -16,9 +16,9 @@ const register = async(req,res) => {
         }
         const hashedPassword = await bcrypt.hash(password,10);
 
-        const [user] = await db('users').insert({name,email,password:hashedPassword}).returning(['id','name','email']);
+        const [user] = await db('users').insert({name,email,password:hashedPassword}).returning(['user_id','name','email']);
 
-        const token = jwt.sign({id: user.id, email: user.email},process.env.JWT_SECRET,{expiresIn:'8h'});
+        const token = jwt.sign({id: user.user_id, email: user.email},process.env.JWT_SECRET,{expiresIn:'8h'});
 
         res.cookie('token',token,{
             httpOnly:true,
@@ -51,7 +51,7 @@ const login = async(req,res) => {
             return res.json({success: false, message:'Invalid password'});
         }
 
-        const token = jwt.sign({id: user.id},process.env.JWT_SECRET,{expiresIn:'8h'});
+        const token = jwt.sign({id: user.user_id},process.env.JWT_SECRET,{expiresIn:'8h'});
         res.cookie('token',token,{
             httpOnly:true,
             secure: process.env.NODE_ENV === 'production',
