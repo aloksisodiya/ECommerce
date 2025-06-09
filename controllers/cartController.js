@@ -50,4 +50,27 @@ const viewCart = async (req,res)=>{
     }
 };
 
-module.exports = {addToCart,viewCart};
+const deleteCart = async (req,res) => {
+    const {cart_id} = req.params;
+
+    if(!cart_id){
+        return res.json({success:false,message:"Cart doesn't exist"});
+    }
+    try{
+        const cartItem = await db('cart').where({cart_id}).first();
+        if(!cartItem){
+            return res.json({success:false,message:"cart item not found"});
+        }
+        
+        await db('cart').where({cart_id}).del();
+
+        await db('products').where({p_id:cartItem.product_id}).increment('stock',cartItem.quantity);
+
+        res.json({success:true,message:"Cart item deleted and stock updated successfully"});
+    } 
+    catch(error){
+        res.json({success:false,message:error.message});
+    }
+}
+
+module.exports = {addToCart,viewCart,deleteCart};
