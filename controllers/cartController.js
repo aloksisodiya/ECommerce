@@ -34,4 +34,19 @@ const addToCart = async(req,res)=>{
     }
 }
 
-module.exports = {addToCart};
+const viewCart = async (req,res)=>{
+    const {u_id} = req.params;
+
+    if(!u_id){
+       return res.json({success:false,message:"user does not exist"});
+    }
+
+    try{
+        const cartItems = await db('cart').where({u_id});
+        res.json({success:true,cart:cartItems});
+    } catch(error){
+        res.json({success:false,message:error.message});
+    }
+};
+
+module.exports = {addToCart,viewCart};
