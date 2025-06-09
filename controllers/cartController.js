@@ -42,7 +42,8 @@ const viewCart = async (req,res)=>{
     }
 
     try{
-        const cartItems = await db('cart').where({u_id});
+        const cartItems = await db('cart').join('products','cart.product_id','products.p_id').where('cart.u_id',u_id)
+        .select('cart.*','products.name','products.price','products.description','products.stock');
         res.json({success:true,cart:cartItems});
     } catch(error){
         res.json({success:false,message:error.message});
