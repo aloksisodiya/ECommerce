@@ -1,11 +1,27 @@
 const db = require('../db/db.js');
+const transporter = require('../config/nodemailer.js');
 
 // create order
 const createOrder = async (req,res)=>{
-    const {order_by} = req.body;
+    const {order_by,email} = req.body;
+
+    if(!order_by || !email) {
+        return res.json({success:false,message:"missing fields"});
+    }
 
     try{
         const [order] = await db('orders').insert({order_by}).returning(['o_id','order_date','order_by']);
+
+        //sending confirmation email to the user
+        const mail={
+                from: process.env.SENDER_EMAIL,
+                to: email,
+                subject: 'Order Placed Successfully✅',
+                text: `Order confirmed, you will get all the futher details on this registered email: ${email}`
+            }
+            
+            await transporter.sendMail(mail);
+
         res.json({success:true,order});
     }
     catch(error){
