@@ -1,7 +1,6 @@
-const db = require('../db/db.js');
+import db from '../db/db.js'
 
 //create  product
-
 const createProduct = async (req,res) => {
     const {price,name,description,stock} = req.body;
 
@@ -62,4 +61,4 @@ const deleteProduct = async (req,res) =>{
     }
 }
 
-module.exports = {createProduct,getProduct,updateProduct,deleteProduct};
+export {createProduct,getProduct,updateProduct,deleteProduct};

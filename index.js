@@ -1,7 +1,7 @@
-require('dotenv').config()
-const express = require('express');
-const router = require('./routes/routes');
-const cookieParser = require('cookie-parser');
+import 'dotenv/config'
+import express from 'express';
+import router from './routes/routes.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 app.use(express.json());

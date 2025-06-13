@@ -1,5 +1,5 @@
-const db = require('../db/db.js');
-const transporter = require('../config/nodemailer.js');
+import db from '../db/db.js'
+import transporter from '../config/nodemailer.js'
 
 // create order
 const createOrder = async (req,res)=>{
@@ -71,4 +71,4 @@ const deleteOrder = async (req,res) =>{
     }
 }
 
-module.exports = {createOrder,readOrder,updateOrder,deleteOrder};
+export {createOrder,readOrder,updateOrder,deleteOrder};

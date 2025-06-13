@@ -1,7 +1,7 @@
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const db = require('../db/db.js');
-const transporter = require('../config/nodemailer.js')
+import bcrypt from "bcrypt";
+import jwt from 'jsonwebtoken'
+import db from '../db/db.js'
+import transporter from '../config/nodemailer.js'
 
 const register = async(req,res) => {
     const {name,email,password}=req.body;
@@ -76,4 +76,4 @@ const login = async(req,res) => {
     }
 }
 
-module.exports = {register,login};
+export {register,login};

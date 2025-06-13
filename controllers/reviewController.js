@@ -1,4 +1,5 @@
-const db = require('../db/db.js');
+import db from '../db/db.js'
+
 
 const createReview = async (req,res) => {
     const {reviewer_name,rating,suggestion} = req.body;
@@ -59,4 +60,4 @@ const deleteReview = async (req,res) =>{
     }
 }
 
-module.exports = {createReview,readReview,updateReview,deleteReview};
+export {createReview,readReview,updateReview,deleteReview};

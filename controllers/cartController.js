@@ -1,4 +1,4 @@
-const db = require('../db/db.js');
+import db from '../db/db.js'
 
 const addToCart = async(req,res)=>{
     const {u_id,product_id,quantity} = req.body;
@@ -73,4 +73,4 @@ const deleteCart = async (req,res) => {
     }
 }
 
-module.exports = {addToCart,viewCart,deleteCart};
+export {addToCart,viewCart,deleteCart};

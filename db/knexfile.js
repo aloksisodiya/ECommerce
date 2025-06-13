@@ -3,7 +3,7 @@
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
-module.exports = {
+const knexfile = {
 
   development: {
     client: 'postgresql',
@@ -21,3 +21,5 @@ module.exports = {
     },
   },
 };
+
+export default knexfile;

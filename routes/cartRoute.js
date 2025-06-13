@@ -1,9 +1,10 @@
-const express = require('express');
-const { addToCart, viewCart, deleteCart } = require('../controllers/cartController');
+import express from 'express';
+import { addToCart, viewCart, deleteCart } from '../controllers/cartController.js';
+
 const cartRoute = express.Router();
 
 cartRoute.post('/',addToCart);
 cartRoute.get('/:u_id',viewCart);
 cartRoute.delete('/:cart_id',deleteCart);
 
-module.exports = cartRoute;
+export default cartRoute;
