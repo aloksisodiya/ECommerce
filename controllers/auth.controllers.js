@@ -27,12 +27,11 @@ const register = async(req,res) => {
             maxAge: 8*60*60*1000
         });
 
-        // sending welcome email
         const mail={
                 from: process.env.SENDER_EMAIL,
                 to: email,
                 subject: 'Welcome to our website',
-                text: `Welcome to our Website. your account has been created with email Id: ${email}`
+                text: `Welcome to our Store. Your account has been created with email Id: ${email}`
             }
             
             await transporter.sendMail(mail);
