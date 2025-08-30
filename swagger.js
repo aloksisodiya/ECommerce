@@ -20,7 +20,11 @@ const swaggerDefinition = {
 
 const options = {
   swaggerDefinition,
-  apis: ["./index.js", "./routes/routes.js",],
+  apis: [
+    "./index.js",
+    "./routes/**/*.js",
+    "./controllers/**/*.js"
+  ],
 };
 
 const swaggerSpec = swaggerJsDoc(options);
