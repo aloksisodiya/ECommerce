@@ -35,6 +35,7 @@ const registerRouter = express.Router();
  *       '500':
  *         description: server error
  */
+registerRouter.post('/register',register);
 
 /**
  * @swagger
@@ -66,9 +67,6 @@ const registerRouter = express.Router();
  *       '500':
  *         description: server error
  */
-registerRouter.post('/register',register);
-
-
 registerRouter.post('/login',login);
 
 export default registerRouter;
